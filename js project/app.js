@@ -1,26 +1,25 @@
-let btn=document.querySelector("button");
-let ul=document.querySelector("ul");
-let inp=document.querySelector("input");
+document.addEventListener("DOMContentLoaded", function() {
+    const addTaskBtn = document.querySelector("#addTaskBtn");
+    const taskList = document.querySelector("#taskList");
+    const taskInput = document.querySelector("#taskInput");
 
-btn.addEventListener("click", function()
-{
-    let item= document.createElement("li");
-    item.innerText=inp.value;
-    let delBtn=document.createElement("button");
-    delBtn.innerText="delete";
-    delBtn.classList.add("delete");
+    addTaskBtn.addEventListener("click", function() {
+        const taskValue = taskInput.value;
+        if (taskValue.trim() !== "") {
+            const taskItem = document.createElement("li");
+            taskItem.innerHTML = `${taskValue} <button class="completeBtn">Mark as Completed</button> <button class="delBtn">Delete</button>`;
+            taskList.appendChild(taskItem);
+            taskInput.value = "";
+        }
+    });
 
-    item.appendChild(delBtn);
-    ul.appendChild(item);
-   
-    inp.value="";
-});
-
-ul.addEventListener("click",function(event)
-{
-    if(event.target.nodeName=="BUTTON")
-    {    
-        let listItem= event.target.parentElement;
-        listItem.remove();
-    }  
+    taskList.addEventListener("click", function(event) {
+        if (event.target.classList.contains("delBtn")) {
+            const taskItem = event.target.parentElement;
+            taskItem.remove();
+        } else if (event.target.classList.contains("completeBtn")) {
+            const taskItem = event.target.parentElement;
+            taskItem.classList.toggle("complete");
+        }
+    });
 });
